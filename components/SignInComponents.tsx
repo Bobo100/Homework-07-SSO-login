@@ -29,15 +29,15 @@ const SignInComponents = () => {
         setUserData(userData);
     }, [])
 
-
     const onLogin = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
+                console.log(user)
                 const displayName = user.displayName;
-                const email = user.email;
+                const email = user.email;                
 
                 const userData = {
                     displayName,

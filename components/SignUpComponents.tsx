@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import Link from 'next/link';
+import router from 'next/router';
 
 const SignUpComponents = () => {
-    // const navigate = useNavigate();
+
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('');
@@ -18,7 +19,8 @@ const SignUpComponents = () => {
                 // Signed in
                 const user = userCredential.user;
                 console.log(user);
-                // navigate("/login")
+                alert('註冊成功！')
+                router.push('/')
                 // ...
             })
             .catch((error) => {
@@ -27,8 +29,6 @@ const SignUpComponents = () => {
                 console.log(errorCode, errorMessage);
                 // ..
             });
-
-
     }
 
     return (
@@ -78,7 +78,7 @@ const SignUpComponents = () => {
 
                         <p>
                             Already have an account?{' '}
-                            <Link href="/login" >
+                            <Link href="/signin" >
                                 Sign in
                             </Link>
                         </p>

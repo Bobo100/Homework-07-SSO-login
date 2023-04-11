@@ -32,7 +32,7 @@ const RouterLink = () => {
         signOut(auth).then(() => {
             // Sign-out successful.
             console.log("Signed out successfully")
-            document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            // document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             // document.cookie = 'user=;expires=now;path=/';
             // router.push("/");
             window.location.href = "/";

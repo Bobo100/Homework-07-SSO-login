@@ -34,17 +34,17 @@ const SignInComponents = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
-                const user = userCredential.user;
-                console.log(user)
-                const displayName = user.displayName;
-                const email = user.email;                
+                // const user = userCredential.user;
+                // console.log(user)
+                // const displayName = user.displayName;
+                // const email = user.email;                
 
-                const userData = {
-                    displayName,
-                    email
-                }
-                const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(userData), process.env.messagingSenderId).toString();
-                document.cookie = `user=${ciphertext}`;
+                // const userData = {
+                //     displayName,
+                //     email
+                // }
+                // const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(userData), process.env.messagingSenderId).toString();
+                // document.cookie = `user=${ciphertext}`;
                 router.push("/")
                 console.log("sign in success");
             })

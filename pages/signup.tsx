@@ -10,7 +10,7 @@ const Signup = () => {
             <Head>
                 <title>註冊</title>
             </Head>
-            <div>
+            <div className='m-5'>
                 <SignUpComponents />
             </div>
         </Layout>

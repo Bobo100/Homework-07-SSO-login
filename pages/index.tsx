@@ -22,7 +22,7 @@ function HomePage() {
             <Head>
                 <title>Home</title>
             </Head>
-            <div>
+            <div className='m-5'>
                 {user ? (
                     <>
                         <h1>登入成功！</h1>

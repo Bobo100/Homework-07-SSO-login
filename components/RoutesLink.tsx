@@ -1,46 +1,17 @@
-import { signOut } from "firebase/auth"
+import { onAuthStateChanged, signOut } from "firebase/auth"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { auth } from "../lib/init-firebase"
 import { useEffect, useState } from "react"
-import CryptoJS from 'crypto-js'
-import { userDataState } from "./redux/state/stateType"
+import { auth } from "../lib/init-firebase"
+import SignOutComponents from "./SignOutComponents"
 const RouterLink = () => {
     const router = useRouter()
+    const [user, setUser] = useState(null);
 
-    const [userData, setUserData] = useState<userDataState>(null);
     useEffect(() => {
-        const cookie = document.cookie.split(';').find(row => row.startsWith('user='))
-        if (!cookie) {
-            setUserData(null);
-            return;
-        }
-        const cookieValue = cookie.split('=')[1];
-        if (!cookieValue) {
-            setUserData(null);
-            return;
-        }
-        const bytes = CryptoJS.AES.decrypt(cookieValue, process.env.messagingSenderId);
-
-        const userData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-        setUserData(userData);
-    }, [])
-
-
-    // 登出
-    const handleLogout = () => {
-        signOut(auth).then(() => {
-            // Sign-out successful.
-            console.log("Signed out successfully")
-            // document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-            // document.cookie = 'user=;expires=now;path=/';
-            // router.push("/");
-            window.location.href = "/";
-
-        }).catch((error) => {
-            // An error happened.
-        });
-    }
+        const unsubscribe = onAuthStateChanged(auth, setUser);
+        return unsubscribe;
+    }, [auth]);
 
     return (
         <>
@@ -48,17 +19,11 @@ const RouterLink = () => {
 
             <div className="flex justify-end items-center flex-grow">
 
-                {userData
-                    && <>
-                        {userData.displayName}
-                    </>
-                    && <>
-                        {userData.email}
-                    </>}
-                {!userData &&
+                {user && <> {user.displayName} {user.email} </>}
+                {!user &&
                     <Link href="/signin" className={router.pathname === "/signin" ? "active" : ""}>登入</Link>}
                 <Link href="/signup" className={router.pathname === "/signup" ? "active" : ""}>註冊</Link>
-                <button className="border border-title p-[10px] hover:bg-white" onClick={handleLogout}>登出</button>
+                <SignOutComponents />
             </div>
         </>
     )

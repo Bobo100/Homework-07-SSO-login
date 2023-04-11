@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-// import { NavLink, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import Link from 'next/link';
 import router from 'next/router';
 
 const SignUpComponents = () => {
-
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('');
 
@@ -18,16 +15,13 @@ const SignUpComponents = () => {
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
-                console.log(user);
                 alert('註冊成功！')
                 router.push('/')
-                // ...
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode, errorMessage);
-                // ..
             });
     }
 

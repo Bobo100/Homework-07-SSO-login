@@ -1,52 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import Link from 'next/link';
 import router from 'next/router';
-import CryptoJS from 'crypto-js';
-import { userDataState } from './redux/state/stateType';
 
 const SignInComponents = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-
-    const [userData, setUserData] = useState<userDataState>(null);
+    const [user, setUser] = useState(null);
     useEffect(() => {
-        const cookie = document.cookie.split(';').find(row => row.startsWith('user='))
-        if (!cookie) {
-            setUserData(null);
-            return;
-        }
-        const cookieValue = cookie.split('=')[1];
-        if (!cookieValue) {
-            setUserData(null);
-            return;
-        }
-        const bytes = CryptoJS.AES.decrypt(cookieValue, process.env.messagingSenderId);
-
-        const userData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-        setUserData(userData);
-    }, [])
+        const unsubscribe = onAuthStateChanged(auth, setUser);
+        return unsubscribe;
+    }, [auth]);
 
     const onLogin = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
-                // const user = userCredential.user;
-                // console.log(user)
-                // const displayName = user.displayName;
-                // const email = user.email;                
-
-                // const userData = {
-                //     displayName,
-                //     email
-                // }
-                // const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(userData), process.env.messagingSenderId).toString();
-                // document.cookie = `user=${ciphertext}`;
+                const user = userCredential.user;        
+                alert('登入成功！')
                 router.push("/")
-                console.log("sign in success");
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -55,7 +30,7 @@ const SignInComponents = () => {
             });
     }
 
-    if (userData) router.push("/")
+    if (user) router.push("/")
 
     return (
         <main >
@@ -118,7 +93,3 @@ const SignInComponents = () => {
 }
 
 export default SignInComponents
-
-function userSelector(arg0: (state: any) => any) {
-    throw new Error('Function not implemented.');
-}

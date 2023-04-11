@@ -2,39 +2,16 @@ import Head from "next/head";
 import Layout from '../components/layout';
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import CryptoJS from 'crypto-js';
-import { userDataState } from "../components/redux/state/stateType";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../lib/init-firebase";
 
 function HomePage() {
 
-    // const [userData, setUserData] = useState<userDataState>(null);
-    // useEffect(() => {
-    //     const cookie = document.cookie.split(';').find(row => row.startsWith('user='))
-    //     if (!cookie) {
-    //         console.log("none cookie")
-    //         setUserData(null);
-    //         return;
-    //     }
-    //     const cookieValue = cookie.split('=')[1];
-    //     if (!cookieValue) {
-    //         console.log("none cookieValue")
-    //         setUserData(null);
-    //         return;
-    //     }
-    //     const bytes = CryptoJS.AES.decrypt(cookieValue, process.env.messagingSenderId);
-
-    //     const userData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-    //     setUserData(userData);
-    // }, [])
-
     const [user, setUser] = useState(null);
-    const auth = getAuth();
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setUser);
         return unsubscribe;
     }, [auth]);
-
 
     return (
         <Layout>

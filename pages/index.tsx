@@ -11,6 +11,10 @@ function HomePage() {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setUser);
         return unsubscribe;
+        /*
+        unsubscribe 函数的主要作用是取消 Firebase Authentication 的訂閱，
+        當您的應用程序不再需要監聽身份驗證狀態變化時，請務必調用它，以便及時釋放資源，避免不必要的開銷。
+        */
     }, [auth]);
 
     return (

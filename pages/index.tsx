@@ -2,10 +2,13 @@ import Head from "next/head";
 import Layout from '../components/layout';
 import Link from "next/link";
 import { User } from "firebase/auth";
+import { useContext } from "react";
+import { AppContext } from "../components/useContext/authUseContext";
 
-function HomePage(props: { user: User }) {
-    console.log(props)
-    if (!props.user) return (
+function HomePage() {
+    const user = useContext(AppContext);
+    
+    if (!user) return (
         <Layout>
             <Head>
                 <title>Home</title>
@@ -26,10 +29,10 @@ function HomePage(props: { user: User }) {
             <div className='m-5'>
                 <h1>登入成功！</h1>
                 <div>
-                    歡迎：{props.user.displayName}
+                    歡迎：{user.user?.displayName}
                 </div>
                 <div>
-                    {props.user.email}
+                    {user.user?.email}
                 </div>
             </div>
         </Layout>

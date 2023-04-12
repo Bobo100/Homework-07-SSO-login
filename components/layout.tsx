@@ -1,4 +1,4 @@
-import Footer from "./Footer";
+import { User } from "firebase/auth";
 import NavBar from "./NavBar";
 
 interface LayoutProps {
@@ -10,6 +10,5 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container_self">
             {children}
         </div>
-        {/* <Footer /> */}
     </div>);
 }

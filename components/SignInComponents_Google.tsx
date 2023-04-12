@@ -5,16 +5,9 @@ import router from 'next/router';
 import Image from 'next/image';
 
 const SignInComponents_Google = () => {
-
-    const [user, setUser] = useState<User | null>(null);
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, setUser);
-        return unsubscribe;
-    }, [auth]);
-    if (user) router.push("/")
-
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
     const onLogin = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
         signInWithPopup(auth, provider)

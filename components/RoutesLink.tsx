@@ -6,12 +6,11 @@ import { User, onAuthStateChanged } from "firebase/auth"
 import { useState, useEffect } from "react"
 const RouterLink = () => {
     const router = useRouter()
-
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setUser);
         return unsubscribe;
-    }, [auth]);    
+    }, [auth]);
     if (!user) return (
         <>
             <Link href="/" className={router.pathname === "/" ? "active" : ""}>回到首頁</Link>

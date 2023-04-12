@@ -3,7 +3,13 @@ import Layout from '../components/layout';
 import Head from 'next/head';
 import SignInComponents_Password from '../components/SignInComponents_Password';
 import SignInComponents_Google from '../components/SignInComponents_Google';
-const SignIn = () => {
+import { User } from 'firebase/auth';
+import router from 'next/router';
+const SignIn = (props: { user: User }) => {
+    if (props.user) {
+        router.push("/")
+    }
+    
     return (
         <Layout>
             <Head>

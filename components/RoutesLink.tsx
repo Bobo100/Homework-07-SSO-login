@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signOut } from "firebase/auth"
+import { User, onAuthStateChanged, signOut } from "firebase/auth"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -6,7 +6,7 @@ import { auth } from "../lib/init-firebase"
 import SignOutComponents from "./SignOutComponents"
 const RouterLink = () => {
     const router = useRouter()
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setUser);

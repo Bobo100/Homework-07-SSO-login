@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, User, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import router from 'next/router';
 import Image from 'next/image';
 
 const SignInComponents_Google = () => {
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setUser);
         return unsubscribe;
     }, [auth]);
 
     const provider = new GoogleAuthProvider();
-    const onLogin = (e) => {
+    const onLogin = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
         signInWithPopup(auth, provider)
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                // The signed-in user info.
-                const user = result.user;
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
+
+                if (credential) {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    // IdP data available using getAdditionalUserInfo(result)
+                    // ...
+                }
                 alert('登入成功！')
                 router.push("/")
             }).catch((error) => {

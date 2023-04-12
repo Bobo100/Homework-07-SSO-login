@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { User, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import Link from 'next/link';
 import router from 'next/router';
@@ -8,14 +8,19 @@ const SignInComponents_Password = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [user, setUser] = useState(null);
+    /*
+    he error message seems to be related to the `onAuthStateChanged` function, which takes in two parameters: the first one is `auth`, and the second one is a callback function that will be called whenever there is a change in the user's authentication state.
+    The error message suggests that the `setUser` function is not of the correct type. It should be a function that takes in a `User` object or null, but it is currently of the type `Dispatch<SetStateAction<null>>`. 
+    To fix this error, you can change the type of the initial `user` state from `null` to `User | null`. This will allow the `setUser` function to accept both `User` objects and `null` values.
+    */
+    const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setUser);
         return unsubscribe;
     }, [auth]);
 
-    const onLogin = (e) => {
-        e.preventDefault();
+    const onLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();        
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
@@ -26,6 +31,7 @@ const SignInComponents_Password = () => {
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                alert('登入失敗！')
                 console.log(errorCode, errorMessage)
             });
     }

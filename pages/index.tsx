@@ -2,12 +2,12 @@ import Head from "next/head";
 import Layout from '../components/layout';
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../lib/init-firebase";
 
 function HomePage() {
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setUser);
         return unsubscribe;

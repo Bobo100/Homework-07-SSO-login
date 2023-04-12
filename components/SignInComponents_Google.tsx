@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { GoogleAuthProvider, User, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, User, onAuthStateChanged, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import router from 'next/router';
 import Image from 'next/image';
@@ -14,6 +14,7 @@ const SignInComponents_Google = () => {
     if (user) router.push("/")
 
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
     const onLogin = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
         signInWithPopup(auth, provider)
@@ -40,6 +41,7 @@ const SignInComponents_Google = () => {
                 const credential = GoogleAuthProvider.credentialFromError(error);
                 // ...
             });
+        // signInWithRedirect(auth, provider)
     }
 
     return (

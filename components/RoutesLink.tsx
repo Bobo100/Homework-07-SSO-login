@@ -8,7 +8,7 @@ const RouterLink = () => {
 
     const user = useContext(AppContext);
 
-    if (!user) return (
+    if (!user.user) return (
         <>
             <Link href="/" className={router.pathname === "/" ? "active" : ""}>回到首頁</Link>
             <div className="flex justify-end items-center flex-grow">

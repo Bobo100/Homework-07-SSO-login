@@ -9,7 +9,7 @@ import { AppContext } from '../components/useContext/authUseContext';
 const SignIn = () => {
     const user = useContext(AppContext);
 
-    if (user) {
+    if (user.user) {
         router.push("/")
     }
 

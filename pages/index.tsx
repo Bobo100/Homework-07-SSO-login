@@ -8,7 +8,7 @@ import { AppContext } from "../components/useContext/authUseContext";
 function HomePage() {
     const user = useContext(AppContext);
     
-    if (!user) return (
+    if (!user.user) return (
         <Layout>
             <Head>
                 <title>Home</title>

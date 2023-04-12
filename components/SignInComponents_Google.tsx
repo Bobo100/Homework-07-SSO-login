@@ -11,6 +11,7 @@ const SignInComponents_Google = () => {
         const unsubscribe = onAuthStateChanged(auth, setUser);
         return unsubscribe;
     }, [auth]);
+    if (user) router.push("/")
 
     const provider = new GoogleAuthProvider();
     const onLogin = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -18,16 +19,15 @@ const SignInComponents_Google = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-
-                if (credential) {
-                    // This gives you a Google Access Token. You can use it to access the Google API.
-                    const token = credential.accessToken;
-                    // The signed-in user info.
-                    const user = result.user;
-                    // IdP data available using getAdditionalUserInfo(result)
-                    // ...
-                }
+                // const credential = GoogleAuthProvider.credentialFromResult(result);
+                // if (credential) {
+                //     // This gives you a Google Access Token. You can use it to access the Google API.
+                //     const token = credential.accessToken;
+                //     // The signed-in user info.
+                //     const user = result.user;
+                //     // IdP data available using getAdditionalUserInfo(result)
+                //     // ...
+                // }
                 alert('登入成功！')
                 router.push("/")
             }).catch((error) => {
@@ -42,13 +42,11 @@ const SignInComponents_Google = () => {
             });
     }
 
-    if (user) router.push("/")
-
     return (
         <div className='bg-[#3F7EE8] flex text-white items-center'
             onClick={onLogin}
         >
-            <Image src="/images/google.png" alt="google" width={40} height={40} className='bg-white border border-[#3F7EE8]' />
+            <Image src="/images/google.png" alt="google" width={40} height={40} className='bg-white border border-[#3F7EE8]' loading='lazy' />
             <div className='w-full p-1'>Sign up with Google</div>
         </div>
     )

@@ -3,7 +3,7 @@ import Layout from '../components/layout';
 import Head from 'next/head';
 import SignInComponents_Password from '../components/SignInComponents_Password';
 import SignInComponents_Google from '../components/SignInComponents_Google';
-const Login = () => {
+const SignIn = () => {
     return (
         <Layout>
             <Head>
@@ -18,4 +18,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default SignIn

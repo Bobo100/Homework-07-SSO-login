@@ -54,6 +54,7 @@ const SignUpComponents = () => {
                         required
                         placeholder="Password"
                         className='border border-black m-1 p-1'
+                        autoComplete='on'
                     />
                 </div>
 

@@ -3,7 +3,6 @@ import Layout from '../components/layout';
 import Head from 'next/head';
 import SignUpComponents from '../components/SignUpComponents';
 
-
 const Signup = () => {
     return (
         <Layout>

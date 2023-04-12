@@ -4,6 +4,7 @@ import Link from "next/link";
 import { User } from "firebase/auth";
 
 function HomePage(props: { user: User }) {
+    console.log(props)
     if (!props.user) return (
         <Layout>
             <Head>

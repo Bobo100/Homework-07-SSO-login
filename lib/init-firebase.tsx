@@ -21,15 +21,25 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-
+// 官方做法　不行　因為我們使用的是SSR 
 // Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this
 // key is the counterpart to the secret key you set in the Firebase console.
-const appCheck = initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider(process.env.reCATPCHA as string),
+// const appCheck = initializeAppCheck(app, {
+//     provider: new ReCaptchaV3Provider(process.env.reCATPCHA as string),
 
-    // Optional argument. If true, the SDK automatically refreshes App Check
-    // tokens as needed.
-    isTokenAutoRefreshEnabled: true
-});
+//     // Optional argument. If true, the SDK automatically refreshes App Check
+//     // tokens as needed.
+//     isTokenAutoRefreshEnabled: true
+// });
+
+// 解法來源：https://github.com/vercel/next.js/discussions/35689
+if (typeof window !== "undefined") {
+    import("firebase/app-check").then((firebaseAppCheck) => {
+        firebaseAppCheck.initializeAppCheck(app, {
+            provider: new firebaseAppCheck.ReCaptchaV3Provider(process.env.reCATPCHA as string),
+            isTokenAutoRefreshEnabled: true,
+        });
+    });
+}
 
 export const auth = getAuth(app);

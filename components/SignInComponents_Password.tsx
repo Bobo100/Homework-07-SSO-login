@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { User, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import Link from 'next/link';
 import router from 'next/router';

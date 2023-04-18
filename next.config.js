@@ -12,5 +12,6 @@ module.exports = {
     messagingSenderId: "229894979483",
     appId: "1:229894979483:web:bd02c16c4806833b6a6b3e",
     measurementId: "G-8226WB0ZN",
+    reCATPCHA: "6LdNepclAAAAAKdQiaOPC0wWv9uX9CATFEoObiog"
   },
 };

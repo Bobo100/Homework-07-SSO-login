@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
 import RouterLink from "./RoutesLink"
-import { User } from "firebase/auth";
-
 
 const NavBar = () => {
     const [prevScrollPos, setPrevScrollPos] = useState(0);

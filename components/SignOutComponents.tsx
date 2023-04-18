@@ -1,5 +1,4 @@
 import { signOut } from "firebase/auth"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { auth } from "../lib/init-firebase"
 const SignOutComponents = () => {

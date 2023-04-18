@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { GoogleAuthProvider, User, onAuthStateChanged, signInWithPopup, signInWithRedirect } from 'firebase/auth';
+import React from 'react';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import router from 'next/router';
 import Image from 'next/image';

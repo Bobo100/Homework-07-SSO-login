@@ -6,7 +6,7 @@ import { AppContext } from '../components/useContext/authUseContext';
 const Update = () => {
 
     const user = useContext(AppContext);
-    if (!user) return (
+    if (!user.user) return (
         <Layout>
             <Head>
                 <title>修改資料</title>

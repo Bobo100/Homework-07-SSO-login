@@ -11,20 +11,33 @@ const SignInComponents_Password = () => {
 
     const { executeRecaptcha } = useGoogleReCaptcha();
 
-    const onLogin = useCallback(
-        (e: any) => {
-            e.preventDefault();
-            if (!executeRecaptcha) {
-                console.log("Execute recaptcha not yet available");
-                return;
-            }
-            executeRecaptcha("login").then((gReCaptchaToken) => {
-                // console.log("gReCaptchaToken", gReCaptchaToken)
-                submitToCheck(gReCaptchaToken);
-            });
-        },
-        [executeRecaptcha, email, password]
-    );
+    // const onLogin = useCallback(
+    //     (e: any) => {
+    //         e.preventDefault();
+    //         if (!executeRecaptcha) {
+    //             console.log("Execute recaptcha not yet available");
+    //             return;
+    //         }
+    //         executeRecaptcha("login").then((gReCaptchaToken) => {
+    //             // console.log("gReCaptchaToken", gReCaptchaToken)
+    //             submitToCheck(gReCaptchaToken);
+    //         });
+    //     },
+    //     [executeRecaptcha, email, password]
+    // );
+
+    const onLogin = (e: any) => {
+        e.preventDefault();
+        if (!executeRecaptcha) {
+            console.log("Execute recaptcha not yet available");
+            return;
+        }
+        executeRecaptcha("login").then((gReCaptchaToken) => {
+            // console.log("gReCaptchaToken", gReCaptchaToken)
+            submitToCheck(gReCaptchaToken);
+        });
+    }
+
 
 
     const submitToCheck = async (gReCaptchaToken: string) => {
@@ -35,8 +48,6 @@ const SignInComponents_Password = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                to: email,
-                from: "someone@example.com",
                 gRecaptchaToken: gReCaptchaToken,
             }),
         })

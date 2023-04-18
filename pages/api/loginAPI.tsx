@@ -100,7 +100,7 @@ export default async function handler(
 
             return res.json({
                 status: "error 2",
-                message: { token, response, verificationUrl },
+                message: "reCAPTCHA verification failed"
             });
         }
     } catch (error) {

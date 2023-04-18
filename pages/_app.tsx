@@ -19,8 +19,7 @@ function App({ Component, pageProps }: AppProps) {
         defer: false,
         appendTo: "head",
         nonce: undefined,
-      }
-      }
+      }}
     >
       <AppProvider>
         <Component {...pageProps} />

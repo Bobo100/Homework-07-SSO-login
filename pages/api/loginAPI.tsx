@@ -10,6 +10,7 @@ const verifyRecaptcha = async (token: string) => {
         "&response=" +
         token;
 
+
     return await axios.post(verificationUrl);
 };
 
@@ -44,7 +45,7 @@ export default async function handler(
         } else {
             return res.json({
                 status: "error",
-                message: "Something went wrong, please try again!!!"
+                message: { token, response },
             });
         }
     } catch (error) {

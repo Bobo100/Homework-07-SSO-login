@@ -28,7 +28,7 @@ const SignInComponents_Password = () => {
 
 
     const submitToCheck = async (gReCaptchaToken: string) => {
-        fetch("/api/loginAPI", {
+        fetch("/api/recaptcha", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",

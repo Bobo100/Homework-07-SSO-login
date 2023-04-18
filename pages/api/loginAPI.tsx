@@ -2,7 +2,7 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const verifyRecaptcha = async (token: string) => {
-    const secretKey = process.env.secretKey;
+    const secretKey = process.env.NEXT_PUBLIC_secretKey;
 
     var verificationUrl =
         "https://www.google.com/recaptcha/api/siteverify?secret=" +

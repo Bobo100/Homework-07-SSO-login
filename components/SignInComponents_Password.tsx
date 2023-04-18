@@ -41,7 +41,7 @@ const SignInComponents_Password = () => {
         })
             .then((res) => res.json())
             .then((res) => {
-                // console.log(res, "response from backend");
+                console.log(res, "response from backend");
                 if (res?.status === "success") {
                     signInWithEmailAndPassword(auth, email, password)
                         .then((userCredential) => {

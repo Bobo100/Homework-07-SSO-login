@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -32,15 +31,15 @@ const app = initializeApp(firebaseConfig);
 //     isTokenAutoRefreshEnabled: true
 // });
 
-// 解法來源：https://github.com/vercel/next.js/discussions/35689
+// 解法來源：https://github.com/vercel/next.js/discussions/35689 但也沒成功
 // if (typeof window !== "undefined") {
-if (typeof document !== "undefined") {
-    import("firebase/app-check").then((firebaseAppCheck) => {
-        firebaseAppCheck.initializeAppCheck(app, {
-            provider: new firebaseAppCheck.ReCaptchaV3Provider(process.env.reCATPCHA as string),
-            isTokenAutoRefreshEnabled: true,
-        });
-    });
-}
+// if (typeof window !== "undefined") {
+//     import("firebase/app-check").then((firebaseAppCheck) => {
+//         firebaseAppCheck.initializeAppCheck(app, {
+//             provider: new firebaseAppCheck.ReCaptchaV3Provider(process.env.reCATPCHA as string),
+//             isTokenAutoRefreshEnabled: true,
+//         });
+//     });
+// }
 
 export const auth = getAuth(app);

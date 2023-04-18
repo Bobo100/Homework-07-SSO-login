@@ -26,28 +26,23 @@ const SignInComponents_Password = () => {
     //         });
     // }
 
-    const { executeRecaptcha } = useGoogleReCaptcha();
-    const onLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        console.log(executeRecaptcha)
-        if (!executeRecaptcha) return;
-        const token = await executeRecaptcha('login');
-        console.log(token)
-        if (token) {
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // Signed in                
-                    const user = userCredential.user;
-                    alert('登入成功！')
-                    router.push("/")
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    alert('登入失敗！')
-                    console.log(errorCode, errorMessage)
-                });
-        }
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in                
+                const user = userCredential.user;
+                alert('登入成功！')
+                router.push("/")
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert('登入失敗！')
+                console.log(errorCode, errorMessage)
+            });
+
     }
 
     return (

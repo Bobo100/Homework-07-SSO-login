@@ -19,6 +19,7 @@ const SignInComponents_Password = () => {
                 return;
             }
             executeRecaptcha("login").then((gReCaptchaToken) => {
+                console.log("gReCaptchaToken", gReCaptchaToken)
                 submitToCheck(gReCaptchaToken);
             });
         },

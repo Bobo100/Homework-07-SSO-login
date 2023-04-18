@@ -1,15 +1,38 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { app, auth } from '../lib/init-firebase';
+import { auth } from '../lib/init-firebase';
 import Link from 'next/link';
 import router from 'next/router';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const SignInComponents_Password = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const onLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    // const onLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    //     e.preventDefault();
+    //     signInWithEmailAndPassword(auth, email, password)
+    //         .then((userCredential) => {
+    //             // Signed in                
+    //             const user = userCredential.user;
+    //             alert('登入成功！')
+    //             router.push("/")
+    //         })
+    //         .catch((error) => {
+    //             const errorCode = error.code;
+    //             const errorMessage = error.message;
+    //             alert('登入失敗！')
+    //             console.log(errorCode, errorMessage)
+    //         });
+    // }
+
+    const onLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+
+        const { executeRecaptcha } = useGoogleReCaptcha();
+        if (!executeRecaptcha) return;
+        const token = await executeRecaptcha('login');
+        console.log(token)
 
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {

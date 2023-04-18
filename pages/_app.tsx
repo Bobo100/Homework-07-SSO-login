@@ -1,7 +1,8 @@
-import { Provider } from 'react-redux';
 import '../styles/global.scss'
 import 'tailwindcss/tailwind.css'
 import { AppProvider } from '../components/useContext/authUseContext';
+import { useEffect } from 'react';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 interface AppProps {
   Component: React.ComponentType;
@@ -11,9 +12,11 @@ interface AppProps {
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <AppProvider>
-      <Component {...pageProps} />
-    </AppProvider>
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.reCATPCHA as string}>
+      <AppProvider>
+        <Component {...pageProps} />
+      </AppProvider>
+    </GoogleReCaptchaProvider>
   )
 }
 

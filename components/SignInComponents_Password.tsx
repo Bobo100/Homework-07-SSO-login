@@ -3,24 +3,17 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { app, auth } from '../lib/init-firebase';
 import Link from 'next/link';
 import router from 'next/router';
-import { ReCaptchaV3Provider, initializeAppCheck } from 'firebase/app-check';
 
 const SignInComponents_Password = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const onLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
-        initializeAppCheck(app, {
-            provider: new ReCaptchaV3Provider(process.env.reCATPCHA as string),
-            // Optional argument. If true, the SDK automatically refreshes App Check
-            // tokens as needed.
-            isTokenAutoRefreshEnabled: true
-        });
-
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                // Signed in
+                // Signed in                
                 const user = userCredential.user;
                 alert('登入成功！')
                 router.push("/")
@@ -32,6 +25,7 @@ const SignInComponents_Password = () => {
                 console.log(errorCode, errorMessage)
             });
     }
+
 
     return (
         <div>

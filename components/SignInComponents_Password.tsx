@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import Link from 'next/link';
@@ -26,24 +26,57 @@ const SignInComponents_Password = () => {
     //         });
     // }
 
-    const onLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in                
-                const user = userCredential.user;
-                alert('登入成功！')
-                router.push("/")
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert('登入失敗！')
-                console.log(errorCode, errorMessage)
+    const onLogin = useCallback(
+        (e: any) => {
+            e.preventDefault();
+            if (!executeRecaptcha) {
+                console.log("Execute recaptcha not yet available");
+                return;
+            }
+            executeRecaptcha("login").then((gReCaptchaToken) => {
+                // console.log(gReCaptchaToken, "response Google reCaptcha server");
+                submitEnquiryForm(gReCaptchaToken);
             });
+        },
+        [executeRecaptcha]
+    );
 
-    }
+    const submitEnquiryForm = async (gReCaptchaToken: any) => {
+        fetch("/api/loginAPI", {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                to: email,
+                from: "someone@example.com",
+                gRecaptchaToken: gReCaptchaToken,
+            }),
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res, "response from backend");
+                if (res?.status === "success") {
+                    signInWithEmailAndPassword(auth, email, password)
+                        .then((userCredential) => {
+                            // Signed in                
+                            const user = userCredential.user;
+                            alert('登入成功！')
+                            router.push("/")
+                        })
+                        .catch((error) => {
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            alert('登入失敗！')
+                            console.log(errorCode, errorMessage)
+                        });
+                } else {
+                }
+            });
+    };
 
     return (
         <div>

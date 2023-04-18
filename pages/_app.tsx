@@ -12,18 +12,20 @@ interface AppProps {
 function App({ Component, pageProps }: AppProps) {
   return (
     <GoogleReCaptchaProvider
-      reCaptchaKey={process.env.NEXT_PUBLIC_reCATPCHA as string}
+      // reCaptchaKey={process.env.NEXT_PUBLIC_reCATPCHA as string}
+      reCaptchaKey='6LevwZclAAAAADEGTGon6r5l8JbJI0NgexdEKQZQ'
       scriptProps={{
         async: false,
         defer: false,
         appendTo: "head",
         nonce: undefined,
-      }}
+      }
+      }
     >
       <AppProvider>
         <Component {...pageProps} />
       </AppProvider>
-    </GoogleReCaptchaProvider>
+    </GoogleReCaptchaProvider >
   )
 }
 

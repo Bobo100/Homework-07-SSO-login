@@ -8,12 +8,10 @@ interface AppProps {
   pageProps: any;
 }
 
-
 function App({ Component, pageProps }: AppProps) {
   return (
     <GoogleReCaptchaProvider
-      // reCaptchaKey={process.env.NEXT_PUBLIC_reCATPCHA as string}
-      reCaptchaKey='6LevwZclAAAAADEGTGon6r5l8JbJI0NgexdEKQZQ'
+      reCaptchaKey={process.env.NEXT_PUBLIC_reCATPCHA as string}
       scriptProps={{
         async: false,
         defer: false,

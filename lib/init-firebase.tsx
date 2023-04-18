@@ -18,7 +18,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 // 官方做法　不行　因為我們使用的是SSR
 // Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this

@@ -95,9 +95,12 @@ export default async function handler(
                 message: response.score,
             });
         } else {
+            const secretKey = process.env.RECAPTCHA_SECRETKEY;
+            const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
+
             return res.json({
                 status: "error 2",
-                message: { token, response },
+                message: { token, response, verificationUrl },
             });
         }
     } catch (error) {

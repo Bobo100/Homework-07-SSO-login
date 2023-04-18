@@ -29,7 +29,6 @@ const SignInComponents_Password = () => {
     const { executeRecaptcha } = useGoogleReCaptcha();
     const onLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-
         if (!executeRecaptcha) return;        
         const token = await executeRecaptcha('login');
         console.log(token)

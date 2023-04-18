@@ -31,7 +31,7 @@ const SignInComponents_Password = () => {
         e.preventDefault();
         if (!executeRecaptcha) return;        
         const token = await executeRecaptcha('login');
-        console.log(token)
+        // console.log(token)
 
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {

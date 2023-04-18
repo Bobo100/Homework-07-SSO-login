@@ -2,7 +2,7 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const verifyRecaptcha = async (token: string) => {
-    const secretKey = process.env.NEXT_PUBLIC_reCATPCHA;
+    const secretKey = process.env.secretKey;
 
     var verificationUrl =
         "https://www.google.com/recaptcha/api/siteverify?secret=" +
@@ -37,17 +37,21 @@ export default async function handler(
 
         if (response.data.success && response.data.score >= 0.5) {
             //INSERT API/LOGIC for saving data once the validation is complete
+            return res.json({
+                status: "success",
+                message: response.data.score,
+            });
         } else {
             return res.json({
                 status: "error",
-                message: response.data,
+                message: "Something went wrong, please try again!!!"
             });
         }
     } catch (error) {
         console.log("ERRRRROr", error);
         res.json({
             status: "error",
-            message: "Something went wrong, please try again!!!！！！",
+            message: "Something went wrong, please try again！！！",
         });
     }
 }

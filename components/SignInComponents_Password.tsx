@@ -9,23 +9,6 @@ const SignInComponents_Password = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // const onLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    //     e.preventDefault();
-    //     signInWithEmailAndPassword(auth, email, password)
-    //         .then((userCredential) => {
-    //             // Signed in                
-    //             const user = userCredential.user;
-    //             alert('登入成功！')
-    //             router.push("/")
-    //         })
-    //         .catch((error) => {
-    //             const errorCode = error.code;
-    //             const errorMessage = error.message;
-    //             alert('登入失敗！')
-    //             console.log(errorCode, errorMessage)
-    //         });
-    // }
-
     const { executeRecaptcha } = useGoogleReCaptcha();
 
     const onLogin = useCallback(
@@ -36,14 +19,14 @@ const SignInComponents_Password = () => {
                 return;
             }
             executeRecaptcha("login").then((gReCaptchaToken) => {
-                // console.log(gReCaptchaToken, "response Google reCaptcha server");
-                submitEnquiryForm(gReCaptchaToken);
+                submitToCheck(gReCaptchaToken);
             });
         },
-        [executeRecaptcha]
+        [executeRecaptcha, email, password]
     );
 
-    const submitEnquiryForm = async (gReCaptchaToken: any) => {
+
+    const submitToCheck = async (gReCaptchaToken: string) => {
         fetch("/api/loginAPI", {
             method: "POST",
             headers: {
@@ -58,14 +41,14 @@ const SignInComponents_Password = () => {
         })
             .then((res) => res.json())
             .then((res) => {
-                console.log(res, "response from backend");
+                // console.log(res, "response from backend");
                 if (res?.status === "success") {
                     signInWithEmailAndPassword(auth, email, password)
                         .then((userCredential) => {
                             // Signed in                
                             const user = userCredential.user;
+                            router.push('/');
                             alert('登入成功！')
-                            router.push("/")
                         })
                         .catch((error) => {
                             const errorCode = error.code;
@@ -92,6 +75,7 @@ const SignInComponents_Password = () => {
                         type="email"
                         required
                         placeholder="Email address"
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className='border border-black m-1 p-1'
                     />
@@ -107,6 +91,7 @@ const SignInComponents_Password = () => {
                         type="password"
                         required
                         placeholder="Password"
+                        value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className='border border-black m-1 p-1'
                         autoComplete='on'

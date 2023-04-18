@@ -2,7 +2,7 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const verifyRecaptcha = async (token: string) => {
-    const secretKey = process.env.NEXT_PUBLIC_secretKey;
+    const secretKey = process.env.RECAPTCHA_SECRETKEY;
 
     var verificationUrl =
         "https://www.google.com/recaptcha/api/siteverify?secret=" +
@@ -44,13 +44,13 @@ export default async function handler(
             });
         } else {
             return res.json({
-                status: "error",
+                status: "error 2",
                 message: { token, response },
             });
         }
     } catch (error) {
         res.json({
-            status: "error",
+            status: "error 1",
             message: error,
         });
     }

@@ -26,7 +26,7 @@ const SignInComponents_Password = () => {
     //     [executeRecaptcha, email, password]
     // );
 
-    const onLogin = (e: any) => {
+    const onLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (!executeRecaptcha) {
             console.log("Execute recaptcha not yet available");

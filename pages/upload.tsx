@@ -63,6 +63,9 @@ const Upload = () => {
             name: name,
             age: age,
         });
+
+        // 重新取得資料
+        getCollectionData();
     }
 
     // 新增Document到Collection，並自訂ID
@@ -77,6 +80,9 @@ const Upload = () => {
 
         // 如果文件不存在，則會創建文件。如果文件已存在，則會覆蓋文件。
         await setDoc(docRef, data);
+
+        // 重新取得資料
+        getCollectionData();
     }
 
     // 更新Document

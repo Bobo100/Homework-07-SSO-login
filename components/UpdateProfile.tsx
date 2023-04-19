@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { updateEmail, updateProfile } from 'firebase/auth';
+import { updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import { auth } from '../lib/init-firebase';
 import router from 'next/router';
 
@@ -32,9 +32,9 @@ const UpdateProfile = ({ name, mail }: Props) => {
                 displayName: displayName,
                 // photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
-                // Profile updated!            
-                alert('修改成功');
+                // Profile updated!     
                 router.push('/update');
+                alert('修改成功');
             }).catch((error) => {
                 // An error occurred
                 // ...
@@ -48,11 +48,27 @@ const UpdateProfile = ({ name, mail }: Props) => {
             updateEmail(auth.currentUser, email).then(() => {
                 // Email updated!
                 // ...
-                alert('修改成功，請重新登入');
                 router.push('/signin');
+                alert('修改成功，請重新登入');
             }).catch((error) => {
                 // An error occurred
                 // ...
+            });
+        }
+    }
+
+    const onUpdatePassword = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        if (auth.currentUser) {
+            updatePassword(auth.currentUser, password).then(() => {
+                // Password updated!
+                // ...
+                router.push('/signin');
+                alert('修改成功');
+            }).catch((error) => {
+                // An error occurred
+                // ...
+                alert("密碼不符合規定");
             });
         }
     }
@@ -93,7 +109,7 @@ const UpdateProfile = ({ name, mail }: Props) => {
 
                 </div>
 
-                {/* <div>
+                <div>
                     <label htmlFor="password">
                         Password：
                     </label>
@@ -106,7 +122,8 @@ const UpdateProfile = ({ name, mail }: Props) => {
                         className='border border-black m-1 p-1'
                         autoComplete='off'
                     />
-                </div> */}
+                    <button onClick={onUpdatePassword} className='border border-black m-1 p-1'>修改</button>
+                </div>
             </form>
 
 

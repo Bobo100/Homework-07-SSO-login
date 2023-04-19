@@ -23,6 +23,7 @@ const RouterLink = () => {
             <Link href="/" className={router.pathname === "/" ? "active" : ""}>回到首頁</Link>
             <div className="flex justify-end items-center flex-grow">
                 <Link href="/update" className={router.pathname === "/update" ? "active" : ""}>{user.user?.displayName} {user.user?.email}</Link>
+                <Link href="/upload" className={router.pathname === "/upload" ? "active" : ""}>上傳</Link>
                 <Link href="/signup" className={router.pathname === "/signup" ? "active" : ""}>註冊</Link>
                 <SignOutComponents />
             </div>

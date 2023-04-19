@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Layout from '../components/layout';
 import Head from 'next/head';
 import { AppContext } from '../components/useContext/authUseContext';
-import { DocumentData, collection, getDocs, addDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { DocumentData, collection, getDocs, addDoc, doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/init-firebase';
 import uuid from 'react-uuid';
 const Upload = () => {
@@ -93,6 +93,18 @@ const Upload = () => {
         await updateDoc(docRef, data);
     }
 
+    // 刪除Document
+    const deleteDocument = async (id: string) => {
+        if (!auth.currentUser) return;
+        console.log(id)
+        const collectionRef = collection(db, "Users");
+        const docRef = doc(collectionRef, id);
+        await deleteDoc(docRef)
+
+        // 重新取得資料
+        getCollectionData();
+    }
+
     return (
         <Layout>
             <Head>
@@ -105,6 +117,7 @@ const Upload = () => {
                         <div key={uuid()} className="border border-blue-500 p-3 my-4">
                             <p>姓名：{item.data.name}</p>
                             <p>年齡：{item.data.age}</p>
+                            <button onClick={() => deleteDocument(item.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">刪除</button>
                         </div>
                     )
                 })}

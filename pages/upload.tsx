@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import Layout from '../components/layout';
 import Head from 'next/head';
 import { AppContext } from '../components/useContext/authUseContext';
@@ -6,6 +6,13 @@ import { DocumentData, collection, getDocs, addDoc, doc, setDoc, updateDoc, dele
 import { auth, db } from '../lib/init-firebase';
 import uuid from 'react-uuid';
 const Upload = () => {
+
+    const [selectDocId, setSelectDocId] = useState('');
+    const [name, setName] = useState<string>('');
+    const [age, setAge] = useState<number>(0);
+    const [id, setId] = useState<string>('');
+    const [data, setData] = useState<DocumentData[]>([]);
+
 
     const user = useContext(AppContext);
     if (!user.user) return (
@@ -18,8 +25,6 @@ const Upload = () => {
             </div>
         </Layout>
     )
-
-    const [data, setData] = useState<DocumentData[]>([]);
 
     // 取得Collection的資料
     const getCollectionData = async () => {
@@ -34,13 +39,8 @@ const Upload = () => {
         }))
 
         setData(collections);
-        console.log(collections);
+        // console.log(collections);
     }
-
-
-    const [name, setName] = useState<string>('');
-    const [age, setAge] = useState<number>(0);
-    const [id, setId] = useState<string>('');
 
     const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
@@ -86,17 +86,24 @@ const Upload = () => {
     }
 
     // 更新Document
+
+    const selectDIV = (id: string) => {
+        setSelectDocId(id);
+    }
     const updateDocument = async () => {
         if (!auth.currentUser) return;
-        const collectionRef = collection(db, "First");
-        const docRef = doc(collectionRef, id);
+        const collectionRef = collection(db, "Users");
+        const docRef = doc(collectionRef, selectDocId);
         const data = {
-            name: "First",
-            age: 20,
+            name: name,
+            age: age,
         }
 
         // 如果文件不存在，則會有錯誤
         await updateDoc(docRef, data);
+
+        // 重新取得資料
+        getCollectionData();
     }
 
     // 刪除Document
@@ -118,15 +125,30 @@ const Upload = () => {
             </Head>
             <div className='m-5'>
                 <button onClick={getCollectionData} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">取得Collection的資料</button>
-                {data && data.map((item, index) => {
-                    return (
-                        <div key={uuid()} className="border border-blue-500 p-3 my-4">
-                            <p>姓名：{item.data.name}</p>
-                            <p>年齡：{item.data.age}</p>
-                            <button onClick={() => deleteDocument(item.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">刪除</button>
-                        </div>
-                    )
-                })}
+                {data &&
+                    <div className='flex'>
+                        {data.map((item, index) => {
+                            const backgroundColor = item.id === selectDocId ? 'red' : '';
+                            return (
+                                <div key={uuid()} className="border border-blue-500 p-3 my-4" onClick={() => selectDIV(item.id)} style={{ backgroundColor }}>
+                                    <p>姓名：{item.data.name}</p>
+                                    <p>年齡：{item.data.age}</p>
+                                    <button onClick={() => deleteDocument(item.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">刪除</button>
+                                </div>
+                            )
+                        })}
+                    </div>
+                }
+
+                <div className="border border-blue-500 p-3 my-4">
+                    <p>姓名：
+                        <input className='border border-black p-3 my-4' type="text" value={name} onChange={handleChangeName} placeholder='請輸入姓名' />
+                    </p>
+                    <p>年齡：
+                        <input className='border border-black p-3 my-4' type="number" value={age} onChange={handleChangeAge} placeholder='請輸入年齡' />
+                    </p>
+                </div>
+                <button onClick={updateDocument} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">更新Document</button>
 
                 <div className="border border-blue-500 p-3 my-4">
                     <p>姓名：

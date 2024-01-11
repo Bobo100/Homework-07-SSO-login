@@ -20,7 +20,7 @@ const SignIn = () => {
             </Head>
             <div className='m-5'>
                 <SignInComponents_Google />
-                <SignInComponents_Facebook />
+                {/* <SignInComponents_Facebook /> */}
                 <div>------------------或使用mail登入------------------</div>
                 <SignInComponents_Password />
             </div>

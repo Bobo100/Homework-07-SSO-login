@@ -8,7 +8,8 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 const SignInComponents_Facebook = () => {
     const { executeRecaptcha } = useGoogleReCaptcha();
 
-    //     // 
+    // 2024 教學
+    // https://stackoverflow.com/questions/37449761/where-does-one-set-the-oauth-redirect-uri-for-facebook-apps
     const provider = new FacebookAuthProvider();
     // provider.setCustomParameters({ prompt: 'select_account' });
     provider.addScope('email');
